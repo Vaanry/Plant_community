@@ -1,0 +1,55 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+  <main class="container mt-3">
+    <!-- HERO -->
+    <section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+      <h1 class="display-4">Каталог растений</h1>
+      <p class="lead">Для любителей домашних джунглей</p>
+      <p class="mt-5 w-50 mx-auto">Самая полная информация об уходе за комнатными растениями</p>
+    </section>
+
+    <!-- CARDS -->
+    <div class="container">
+      <div class="row">
+        {% for plant in plants.items %} 
+        <div class="col-4">
+          <div class="card mb-4">
+            <div class="embed-responsive embed-responsive-4by3">
+               <img class="card-img-top embed-responsive-item" src={{ url_for('static', filename = plant.foto) }} alt="" />
+            </div>   
+                
+            <div class="card-body">
+              <h2 class="h5 card-title">{{ plant.name }}</h2>
+              <p class="card-text">{{ plant.species }}</p>
+              <a href="{{ url_for('cart', id=plant.id) }}" class="btn btn-sm btn-primary">Подробнее</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div> 
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+      <ul class="pagination">
+        {% if plants.has_prev %}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('main', page=plants.prev_num) }}">« Prev</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+          <span class="page-link">Page {{ plants.page }} of {{ plants.pages }}</span>
+        </li>
+
+        {% if plants.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('main', page=plants.next_num) }}">Next »</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+
+  </main>
+{% endblock %}

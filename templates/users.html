@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<main class="container mt-3">
+    <!-- HERO -->
+    <section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+      <h1 class="display-4">Список пользователей</h1>
+    </section>
+    {% for user in users %}
+    <div class="card w-75">
+        <div class="card-body">
+          <a href="{{ url_for("user", id=user.id) }}">
+          <h5 class="card-title">{{user.username}}</h5>
+          </a>
+          <p class="card-text">Растений в коллекции: {{user.users_plants|length}}</p>
+          <a href="{{ url_for('user', id=user.id) }}" class="btn btn-primary">На страницу пользователя</a>
+          {% if session.login and session.get('id') != user.id%}
+          <a href="{{ url_for("private_messages", id=user.id) }}" class="btn btn-primary">Написать сообщение</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% if session.get('is_admin')==True %}
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+  <p>Добро пожаловать в панель администратора!</p>
+
+
+{% endblock %}
+{% else %}
+
+{% extends "main.html" %}
+{% block crud_container %}
+<section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+    <h1 class="display-4">Доступ запрещён</h1>
+  </section>
+{% endblock %}
+{% endif %}

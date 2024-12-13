@@ -1,0 +1,42 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<main class="container mt-3">
+
+    <div class="row">
+        
+        <div class="card mb-4" style="width: 300rem;">     
+          <div class="card-body">
+            <a href="{{ url_for("user", id=comment.author.id) }}">
+            <h2 class="h5 card-title">{{comment.author.username}}</h2>
+            </a>
+            <p class="card-text">{{ comment.timestamp }}</p>
+            <p class="card-text">{{ comment.text }}</p>
+          </div>
+      </div>
+    </div>   
+    {% if route == "get" %}
+    <div class="row">
+      <h4>Введите новый текст</h4>
+      <div class="card mb-4" style="width: 300rem;"> 
+        <form action="/comment/{{ comment.id }}" method="POST">
+            {{ form.csrf_token }}
+            {{ form.text(class="form-control form-control-lg py-3 mb-3", placeholder=form.text.label.text) }}
+            {{ form.submit(class="btn btn-success") }}
+          </form>
+      </div>
+    {% else %}
+    <div class="row">
+      <h4>Вы действительно хотите удалить этот комментарий?</h4>
+      <div class="card mb-4" style="width: 300rem;">
+        <form action="{{ url_for('delete_comment', id=comment.id) }}" method="POST">
+          {{ form.csrf_token }}  <!-- Если вы используете CSRF-токены -->
+          <button type="submit" class="btn btn-danger">Удалить</button>
+          <a href="{{ url_for('cart', id=comment.plant_id) }}" class="btn btn-success">Назад</a>
+        </form>
+        
+      </div>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+
+  <main class="container mt-3">
+    <section class="container my-5">
+        <div class="row">
+          <h1>Вход для зарегистрированных пользователей</h1>
+          <div class="col-12 col-lg-7 my-5">
+            <form action="/login/" method="POST">
+                {{ form.csrf_token }}
+                {{ form.username(class="form-control form-control-lg py-3 mb-3", placeholder=form.username.label.text) }}
+                <p>
+                {{ form.password(class="form-control form-control-lg py-3 mb-3", placeholder=form.password.label.text)}}
+                {{ form.submit(class="btn btn-success") }}
+              </form>
+          </div>
+          <div class="col-12 col-lg-5">
+            <img
+              class="img-fluid mx-auto d-block"
+              src="{{ url_for('static', filename='images/illustration.png') }}"
+              alt=""
+            />
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}

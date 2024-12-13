@@ -1,0 +1,7 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+    <h1 class="display-4">{{error}}</h1>
+  </section>
+{% endblock %}

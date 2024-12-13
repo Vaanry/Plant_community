@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+  <main class="container mt-3">
+    <!-- HERO -->
+    <section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+      <h1 class="display-4">Личные сообщения</h1>
+    </section>
+
+    <!-- CARDS -->
+    <div class="container">
+        <div class="row">
+            <div class="card mb-4" style="width: 300rem;"> 
+              <form action="/private_messages/{{ id }}" method="POST">
+                  {{ form.csrf_token }}
+                  {{ form.text(class="form-control form-control-lg py-3 mb-3", placeholder=form.text.label.text) }}
+                  {{ form.submit(class="btn btn-success") }}
+                </form>
+            </div>
+        </div>
+        {% for message in messages %} 
+      <div class="row">
+        
+          <div class="card mb-4" style="width: 300rem;">     
+            <div class="card-body">
+              <a href="{{ url_for("user", id=message.sender.id) }}">
+              <h2 class="h5 card-title">{{ message.sender.username }}</h2>
+              </a>
+              <p class="card-text">{{ message.timestamp }}</p>
+              <p class="card-text">{{ message.message }}</p>
+            </div>
+        </div>
+      </div> 
+      {% endfor %}
+    </div> 
+  </main>
+  {% endblock %}

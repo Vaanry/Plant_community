@@ -1,0 +1,41 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+  <main class="container mt-3">
+    <!-- HERO -->
+    <section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+      <h1 class="display-4">Список личных чатов</h1>
+    </section>
+
+    <!-- CARDS -->
+    <div class="container">
+
+        {% for chat in chats %} 
+      <div class="row">
+        
+          <div class="card mb-4" style="width: 300rem;">     
+            <div class="card-body">
+              {% if session.get('id') != chat.recipient.id%}
+
+              <a href="{{ url_for("user", id=chat.recipient.id) }}">
+              <h2 class="h5 card-title" >{{ chat.recipient.username }}</h2>
+              </a>
+
+              <p>Последнее сообщение от <strong>{{chat.sender.username}}</strong> : {{chat.timestamp}}</p>
+              <a href="{{ url_for("private_messages", id=chat.recipient.id) }}" class="btn btn-primary">Читать переписку</a>
+              {% else %}
+
+              <a href="{{ url_for("user", id=chat.sender.id) }}">
+              <h2 class="h5 card-title" style="{% if chat.is_readed==False %}color: red;{% endif %}">{{ chat.sender.username }}</h2>
+            </a>
+            
+              <p>Последнее сообщение от <strong>{{chat.sender.username}}</strong> : {{chat.timestamp}}</p>    
+              <a href="{{ url_for("private_messages", id=chat.sender.id) }}" class="btn btn-primary">Читать переписку</a>              
+              {% endif %}
+            </div>
+        </div>
+      </div> 
+      {% endfor %}
+    </div> 
+  </main>
+  {% endblock %}

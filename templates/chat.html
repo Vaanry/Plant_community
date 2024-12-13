@@ -1,0 +1,55 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+    <style>
+        #messages { 
+            height: 300px;
+            width: 80%;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            margin-left: 50px;
+            padding: 10px;
+        }
+        #message-input {
+            width: 80%;
+            margin-left: 50px;
+            padding: 10px;
+        }
+        #send-btn {
+            padding: 10px;
+        }
+    </style>
+    
+
+
+    <main class="container mt-3">
+        <h1 class="text-center">Чат</h1>
+        <div id="messages" class="jumbotron jumbotron-fluid" style="background: url({{ url_for('static', filename='images/logo.jpg') }}); background-position: center center"></div>
+        
+        <input type="text" id="message-input" placeholder="Напишите сообщение...">
+        <button id="send-btn" class="btn btn-sm btn-primary">Отправить</button>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+        <script>
+            const socket = io.connect('http://' + document.domain + ':' + location.port);
+    
+            // Отправка сообщений на сервер
+            document.getElementById('send-btn').onclick = function() {
+                const message = document.getElementById('message-input').value;
+                socket.send(message);
+                document.getElementById('message-input').value = '';  // очистка поля ввода
+            };
+    
+            // Прием сообщений от сервера
+            socket.on('message', function(msg) {
+                const messagesDiv = document.getElementById('messages');
+                const newMessage = document.createElement('div');
+                newMessage.textContent = msg;
+                messagesDiv.appendChild(newMessage);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;  // прокрутка вниз
+            });
+        </script>
+    </main>
+
+{% endblock %}

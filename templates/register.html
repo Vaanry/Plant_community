@@ -1,0 +1,52 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        <li class="alert alert-{{category}}">{{ message }}</li>
+        {% endfor %}
+    {% endif %} 
+    </ul>
+{% endwith %} 
+  <main class="container mt-3">
+    <section class="container my-5">
+        <div class="row">
+          <h1>Регистрация нового пользователя</h1>
+          <div class="col-12 col-lg-7 my-5">
+            <form action="/register/" method="POST">
+                {{ form.csrf_token }}
+                {{ form.username(class="form-control form-control-lg py-3 mb-3", placeholder=form.username.label.text) }}
+                <p>
+                  {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                      <span style="color: red">{{ error }}</span>
+                    {% endfor %}
+                  {% endif %}
+                </p>
+                {{ form.email(class="form-control form-control-lg py-3 mb-3", placeholder=form.email.label.text) }}
+                <p></p>
+                {{ form.password(class="form-control form-control-lg py-3 mb-3", placeholder=form.password.label.text)}}
+                <p class="text-danger">
+                  {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                    <span style="color: red">{{ error }}</span>
+                    {% endfor %}
+                  {% endif %}
+                  <p></p>
+                  {{ form.confirmPassword(class="form-control form-control-lg py-3 mb-3", placeholder=form.confirmPassword.label.text)}}
+                {{ form.submit(class="btn btn-success") }}
+              </form>
+          </div>
+          <div class="col-12 col-lg-5">
+            <img
+              class="img-fluid mx-auto d-block"
+              src="{{ url_for('static', filename='images/illustration.png') }}"
+              alt=""
+            />
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}

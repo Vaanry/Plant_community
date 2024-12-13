@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<main class="container mt-3">
+  <!-- HERO -->
+  <section class="jumbotron text-center mt-4" style="background: url({{ url_for('static', filename = 'images/logo.jpg') }}); background-position: center center">
+    <h1 class="display-4">Каталог растений</h1>
+    <p class="lead">Для любителей домашних джунглей</p>
+    <p class="mt-5 w-50 mx-auto">Самая полная информация об уходе за комнатными растениями. Здесь вы найдёте подробные описания комнатных растений, советы по уходу, единомышленников и многое другое!</p>
+  </section>
+
+  {% endblock %}
